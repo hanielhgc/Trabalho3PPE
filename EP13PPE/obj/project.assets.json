@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Haniel\\source\\repos\\EP13PPE\\EP13PPE\\EP13PPE.csproj",
+      "projectUniqueName": "C:\\Users\\Haniel\\source\\repos\\Trabalho3PPE\\EP13PPE\\EP13PPE.csproj",
       "projectName": "EP13PPE",
-      "projectPath": "C:\\Users\\Haniel\\source\\repos\\EP13PPE\\EP13PPE\\EP13PPE.csproj",
+      "projectPath": "C:\\Users\\Haniel\\source\\repos\\Trabalho3PPE\\EP13PPE\\EP13PPE.csproj",
       "packagesPath": "C:\\Users\\Haniel\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Haniel\\source\\repos\\EP13PPE\\EP13PPE\\obj\\",
+      "outputPath": "C:\\Users\\Haniel\\source\\repos\\Trabalho3PPE\\EP13PPE\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Haniel\\AppData\\Roaming\\NuGet\\NuGet.Config",

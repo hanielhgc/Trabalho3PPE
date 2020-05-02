@@ -1,0 +1,11 @@
+C:\Users\Haniel\source\repos\Trabalho3PPE\EP13PPE\bin\Debug\netcoreapp3.1\EP13PPE.exe
+C:\Users\Haniel\source\repos\Trabalho3PPE\EP13PPE\bin\Debug\netcoreapp3.1\EP13PPE.deps.json
+C:\Users\Haniel\source\repos\Trabalho3PPE\EP13PPE\bin\Debug\netcoreapp3.1\EP13PPE.runtimeconfig.json
+C:\Users\Haniel\source\repos\Trabalho3PPE\EP13PPE\bin\Debug\netcoreapp3.1\EP13PPE.runtimeconfig.dev.json
+C:\Users\Haniel\source\repos\Trabalho3PPE\EP13PPE\bin\Debug\netcoreapp3.1\EP13PPE.dll
+C:\Users\Haniel\source\repos\Trabalho3PPE\EP13PPE\bin\Debug\netcoreapp3.1\EP13PPE.pdb
+C:\Users\Haniel\source\repos\Trabalho3PPE\EP13PPE\obj\Debug\netcoreapp3.1\EP13PPE.csprojAssemblyReference.cache
+C:\Users\Haniel\source\repos\Trabalho3PPE\EP13PPE\obj\Debug\netcoreapp3.1\EP13PPE.AssemblyInfoInputs.cache
+C:\Users\Haniel\source\repos\Trabalho3PPE\EP13PPE\obj\Debug\netcoreapp3.1\EP13PPE.AssemblyInfo.cs
+C:\Users\Haniel\source\repos\Trabalho3PPE\EP13PPE\obj\Debug\netcoreapp3.1\EP13PPE.dll
+C:\Users\Haniel\source\repos\Trabalho3PPE\EP13PPE\obj\Debug\netcoreapp3.1\EP13PPE.pdb
