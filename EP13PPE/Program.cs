@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -25,7 +26,7 @@ namespace EP13PPE
 
 
             int k = 0, l = 0;
-            double?[,] matriz = new double?[lineCount, colCount];
+            double[,] matriz = new double[lineCount, colCount];
             foreach (var row in probabilidades.Split('\n'))
             {
                 l = 0;
@@ -43,15 +44,152 @@ namespace EP13PPE
             }
 
 
+            List<double> mediaColunas = new List<double>();
+            List<double> desvioColunas = new List<double>();
+
+
+
+
+            for (int col = 0; col < colCount; col++)
+            {
+
+                double count = 0;
+
+                for (int row = 0; row < lineCount; row++)
+                {
+
+                    count += matriz[row, col];
+
+                }
+
+                mediaColunas.Add(count / lineCount);
+            }
+
+
+
+            for (int col = 0; col < colCount; col++)
+            {
+                double resultado = 0;
+
+                for (int row = 0; row < lineCount; row++)
+                {
+                    //calculando o desvio padrão
+                    var result = Math.Pow(mediaColunas[col] - matriz[row, col], 2);
+                    resultado = Math.Sqrt(result / lineCount);
+                }
+
+                desvioColunas.Add(resultado);
+            }
+
+
+            //calculando R e roh
+
+
+            List<Roh> rohs = new List<Roh>();
+
+
+            for (int i = 0; i < colCount; i++)
+            {
+                for (int j = 0; j < colCount; j++)
+                {
+
+                    var col1 = ExtrairColuna(matriz, i);
+                    var col2 = ExtrairColuna(matriz, j);
+
+                    var r = MultiplicarVetores(col1, col2).Sum();
+
+                    Roh roh = new Roh();
+                    roh.nome = "Roh" + i + "-" + j;
+                    roh.i = i;
+                    roh.j = j;
+                    roh.valor = r / (desvioColunas[i] * desvioColunas[j]);
+                    rohs.Add(roh);
+                }
+            }
+
+
+            Xhat[] xhats = new Xhat[colCount];
+
+
+            for (int i = 0; i < colCount; i++)
+            {
+                for (int j = 0; j < colCount; j++)
+                {
+                    Xhat xhat = new Xhat();
+                    xhat.coluna = new double[lineCount];
+
+                    var col1 = ExtrairColuna(matriz, i);
+                    var col2 = ExtrairColuna(matriz, j);
+
+
+                    for (int z = 0; z < lineCount; z++)
+                    {
+                        var ro = rohs.Where(x => x.i == i && x.j == j).FirstOrDefault();
+                        xhat.coluna[z] = col1.Average() + ro.valor * desvioColunas[i] * desvioColunas[j] * (col2[z] - col2.Average());
+
+                    }
+
+                    xhats[i] = xhat;
+
+                }
+            }
+
+
+            double[,] MEAM = new double[colCount, colCount];
+
+            double[] xHAT;
+            double[] X;
+
+            for (int row = 0; row < colCount; row++)
+            {
+                for (int col = 0; col < colCount; col++)
+                {
+
+
+                    xHAT = xhats[row].coluna;
+                    X = ExtrairColuna(matriz, col);
+
+                    double soma = 0;
+                    for (int ind = 0; ind < lineCount; ind++)
+                    {
+                        soma = Math.Abs(xHAT[ind]-X[ind]);
+                    }
+
+                    soma = soma / lineCount;
+
+                    MEAM[row, col] = soma;
+
+                }
+
+            }
+
+            ImprimirMatriz(MEAM);
+
+
             matriz = matriz;
 
 
         }
 
 
-        public static double? ProdutorioVetor(double?[] vetor)
+
+        public static double[] MultiplicarVetores(double[] vetor1, double[] vetor2)
         {
-            double? result = 1;
+            //se os tamanhos dos vetores forem diferentes haverá erro
+            double[] vetorResultado = new double[vetor1.Length];
+
+            for (int i = 0; i < vetor1.Length; i++)
+            {
+                vetorResultado[i] = vetor1[i] * vetor2[i];
+            }
+
+            return vetorResultado;
+
+        }
+
+        public static double ProdutorioVetor(double[] vetor)
+        {
+            double result = 1;
 
             for (int i = 0; i < vetor.Length; i++)
             {
@@ -68,15 +206,38 @@ namespace EP13PPE
         }
 
 
+        public static double[] ExtrairColuna(double[,] matriz, int coluna)
+        {
 
-        public static double?[] MultiplicarMatriz(double?[,] matriz, double?[] vetor)
+
+            var colCount = matriz.GetLength(1);
+            var lineCount = matriz.GetLength(0);
+
+
+            double[] vetor = new double[lineCount];
+
+
+            for (int row = 0; row < lineCount; row++)
+            {
+                vetor[row] = matriz[row, coluna];
+            }
+
+
+
+
+            return vetor;
+        }
+
+
+
+        public static double[] MultiplicarMatriz(double[,] matriz, double[] vetor)
         {
 
 
             var colCount = matriz.GetLength(1);
             var rowCount = matriz.GetLength(0);
 
-            double?[] vetorResultado = new double?[rowCount];
+            double[] vetorResultado = new double[rowCount];
 
 
             if (colCount != vetor.Length)
@@ -88,7 +249,7 @@ namespace EP13PPE
             {
                 for (int j = 0; j < matriz.GetLength(1); j++)
                 {
-                    matriz[i, j] = matriz[i, j].GetValueOrDefault() * vetor[j];
+                    matriz[i, j] = matriz[i, j] * vetor[j];
                 }
 
             }
@@ -96,7 +257,7 @@ namespace EP13PPE
 
             for (int k = 0; k < matriz.GetLength(0); k++)
             {
-                double? sum = 0;
+                double sum = 0;
                 for (int l = 0; l < matriz.GetLength(1); l++)
                 {
                     sum = sum + matriz[k, l];
@@ -112,7 +273,7 @@ namespace EP13PPE
         }
 
 
-        public static double?[,] MultiplicarMatriz(double?[,] matriz, double numero)
+        public static double[,] MultiplicarMatriz(double[,] matriz, double numero)
         {
 
 
@@ -120,7 +281,7 @@ namespace EP13PPE
             {
                 for (int j = 0; j < matriz.GetLength(1); j++)
                 {
-                    matriz[i, j] = matriz[i, j].GetValueOrDefault() * numero;
+                    matriz[i, j] = matriz[i, j] * numero;
                 }
 
             }
@@ -138,7 +299,7 @@ namespace EP13PPE
             return null;
         }
 
-        public static void ImprimirMatriz(double?[,] matriz)
+        public static void ImprimirMatriz(double[,] matriz)
         {
             int valor;
 
